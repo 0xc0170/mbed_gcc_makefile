@@ -33,7 +33,7 @@ LIBS = -lmbed -lstdc++ -lsupc++ -lm -lgcc -lc -lnosys
 
 MBED_OBJ = mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/cmsis_nvic.o
 MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/startup_MKL25Z4.o
-MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/stdio.o
+MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/retarget.o
 MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/system_MKL25Z4.o
 
 # directories
@@ -54,7 +54,7 @@ endif
 COMPILER_OPTIONS  = -g -ggdb -Os -Wall -fno-strict-aliasing -fno-rtti
 COMPILER_OPTIONS += -ffunction-sections -fdata-sections -fno-exceptions -fno-delete-null-pointer-checks
 COMPILER_OPTIONS += -fmessage-length=0 -fno-builtin -m$(INSTRUCTION_MODE)
-COMPILER_OPTIONS += -mcpu=$(CPU) -MD -MP $(CC_SYMBOLS)
+COMPILER_OPTIONS += -mcpu=$(CPU) -MMD -MP $(CC_SYMBOLS)
 
 DEPEND_OPTS = -MF $(OBJ_FOLDER)$(@F:.o=.d)
 
@@ -69,6 +69,10 @@ ASFLAGS = $(COMPILER_OPTIONS) $(INC_DIRS_F) -c
 LD_OPTIONS = -mcpu=$(CPU) -m$(INSTRUCTION_MODE) -Os -L $(LIB_DIRS) -T $(LD_SCRIPT) $(INC_DIRS_F)
 LD_OPTIONS += -specs=nano.specs -u _printf_float -u _scanf_float
 LD_OPTIONS += -Wl,-Map=$(OBJ_FOLDER)$(TARGET).map,--gc-sections
+
+OBJCPFLAGS = -O ihex
+
+ARFLAGS = cr
 
 RM = rm -rf
 
@@ -134,6 +138,9 @@ print_size:
 	@echo 'Printing size'
 	arm-none-eabi-size --totals $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT)
 	arm-none-eabi-objcopy -O srec $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) $(OBJ_FOLDER)$(TARGET).s19
+	arm-none-eabi-objcopy -O binary -v $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) $(OBJ_FOLDER)$(TARGET).bin
+	arm-none-eabi-objdump -D $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) > $(OBJ_FOLDER)$(TARGET).lst
+	arm-none-eabi-nm $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) > $(OBJ_FOLDER)$(TARGET)-symbol-table.txt
 	@echo ' '
 
 .PHONY: all clean print_size
