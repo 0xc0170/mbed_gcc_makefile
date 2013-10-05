@@ -66,7 +66,9 @@ ASFLAGS = $(COMPILER_OPTIONS) $(INC_DIRS_F) -c
 
 # Linker options
 LD_OPTIONS = -mcpu=$(CPU) -m$(INSTRUCTION_MODE) -Os -L $(LIB_DIRS) -T $(LD_SCRIPT) $(INC_DIRS_F)
-LD_OPTIONS += -specs=nano.specs -u _printf_float -u _scanf_float
+LD_OPTIONS += -specs=nano.specs
+#use this if %f is used, by default it's commented
+#LD_OPTIONS += -u _printf_float -u _scanf_float
 LD_OPTIONS += -Wl,-Map=$(OBJ_FOLDER)$(TARGET).map,--gc-sections
 
 OBJCPFLAGS = -O ihex
