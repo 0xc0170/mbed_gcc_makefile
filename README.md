@@ -13,3 +13,6 @@ initial version
 
 v1.1
 Binary created, assembly listing, binary for mbed interface
+
+v1.2
+printf/scanf for floats are commented out, text size went down to 3kB from 26kB
