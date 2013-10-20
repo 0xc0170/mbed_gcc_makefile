@@ -1,13 +1,34 @@
 #
-# File: Makefile for mbed on KL25Z (ARM GCC)
+# File: Makefile for all mbed supported platforms (ARM GCC)
 #
-# Copyright (c) 6.2013, 0xc0170
+# Copyright (c) 10.2013, 0xc0170
 #
-# This program is free software. It comes without any warranty, to
-# the extent permitted by applicable law. You can redistribute it
-# and/or modify it under the terms of the Do What The Fuck You Want
-# To Public License, Version 2, as published by Sam Hocevar. See
-# http://www.wtfpl.net/ for more details.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# SUPPORTED PLATFORMS GCC_ARM
+#	KL05Z
+#	KL25Z
+#	KL46Z
+#	LPC1768
+#	LPC11U24
+#	LPC11U24_301
+#	LPC1347
+#	LPC1114
+#	LPC11C24
+#	LPC11U35_401
+#	STM32F407
+BOARD = KL25Z
+include Platforms
 
 # toolchain specific
 TOOLCHAIN = arm-none-eabi-
@@ -19,28 +40,31 @@ OBJCP = $(TOOLCHAIN)objcopy
 AR = $(TOOLCHAIN)ar
 
 # application specific
-CPU = cortex-m0
 INSTRUCTION_MODE = thumb
 TARGET = mbed
 TARGET_EXT = elf
-LD_SCRIPT = mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/MKL25Z4.ld
+LD_SCRIPT = mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(LINKER_NAME).ld
 
-CC_SYMBOLS = -DTARGET_KL25Z -DTOOLCHAIN_GCC_ARM -DNDEBUG
+CC_SYMBOLS = -D$(TARGET_BOARD) -DTOOLCHAIN_GCC_ARM -DNDEBUG
 
-LIB_DIRS = mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM
+LIB_DIRS = mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM
 LIBS = -lmbed -lstdc++ -lsupc++ -lm -lgcc -lc -lnosys
 
-MBED_OBJ = mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/cmsis_nvic.o
-MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/startup_MKL25Z4.o
-MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/retarget.o
-MBED_OBJ += mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM/system_MKL25Z4.o
+MBED_OBJ = mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/cmsis_nvic.o
+MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(STARTUP_NAME).o
+MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/retarget.o
+MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(SYSTEM_NAME).o
 
 # directories
-INC_DIRS = mbed mbed/TARGET_KL25Z mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM .
+INC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM
+# app headers directories
+INC_DIRS += NVIC_set_all_priorities cc3000_hostdriver_mbedsocket cc3000_hostdriver_mbedsocket/Helper cc3000_hostdriver_mbedsocket/Socket
 
-SRC_DIRS = mbed mbed/TARGET_KL25Z mbed/TARGET_KL25Z/TOOLCHAIN_GCC_ARM .
+SRC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM .
+# app source directories
+SRC_DIRS += NVIC_set_all_priorities cc3000_hostdriver_mbedsocket cc3000_hostdriver_mbedsocket/Helper cc3000_hostdriver_mbedsocket/Socket
 
-OUT_DIR = out
+OUT_DIR = build
 
 INC_DIRS_F = -I. $(patsubst %, -I%, $(INC_DIRS))
 
@@ -116,7 +140,7 @@ $(OBJ_FOLDER)%.o : %.s
 	@echo 'Finished building: $(@F)'
 	@echo ' '
 
-all: create_outputdir $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) print_size
+all: create_outputdir $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) print_info
 
 create_outputdir:
 	$(shell mkdir $(OBJ_FOLDER) 2>/dev/null)
@@ -135,7 +159,7 @@ clean:
 	$(RM) $(TARGET).$(TARGET_EXT) $(TARGET).bin $(TARGET).map $(OBJ_FOLDER)*.* $(OBJ_FOLDER)
 	@echo ' '
 
-print_size:
+print_info:
 	@echo 'Printing size'
 	arm-none-eabi-size --totals $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT)
 	arm-none-eabi-objcopy -O srec $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) $(OBJ_FOLDER)$(TARGET).s19
@@ -144,4 +168,4 @@ print_size:
 	arm-none-eabi-nm $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) > $(OBJ_FOLDER)$(TARGET)-symbol-table.txt
 	@echo ' '
 
-.PHONY: all clean print_size
+.PHONY: all clean print_info
