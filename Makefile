@@ -57,12 +57,12 @@ MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(SYSTEM_NAME).o
 
 # directories
 INC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM
-# app headers directories
-INC_DIRS += NVIC_set_all_priorities cc3000_hostdriver_mbedsocket cc3000_hostdriver_mbedsocket/Helper cc3000_hostdriver_mbedsocket/Socket
+# app headers directories (remove comment and add more files)
+#INC_DIRS +=
 
 SRC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM .
-# app source directories
-SRC_DIRS += NVIC_set_all_priorities cc3000_hostdriver_mbedsocket cc3000_hostdriver_mbedsocket/Helper cc3000_hostdriver_mbedsocket/Socket
+# app source directories (remove comment and add more files)
+#SRC_DIRS +=
 
 OUT_DIR = build
 
