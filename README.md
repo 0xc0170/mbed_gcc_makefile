@@ -3,7 +3,7 @@ mbed_gcc_makefile
 
 mbed GCC Makefile
 
-## SUPPORTED PLATFORMS GCC_ARM
+### SUPPORTED PLATFORMS GCC_ARM
 * KL05Z
 * KL25Z
 * KL46Z
