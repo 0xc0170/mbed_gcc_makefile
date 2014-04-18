@@ -55,14 +55,20 @@ MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(STARTUP_NAME).o
 MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/retarget.o
 MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(SYSTEM_NAME).o
 MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/board.o
-MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o
+ifneq ("$(wildcard mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o)","")
+	then MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o
+endif
 
 # directories
 INC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM
+INC_DIRS += mbed/$(TARGET_BOARD)/$(TARGET_VENDOR)/$(TARGET_FAMILY)
+INC_DIRS += mbed/$(TARGET_BOARD)/$(TARGET_VENDOR)/$(TARGET_FAMILY)/$(TARGET_SPECIFIC)
 # app headers directories (remove comment and add more files)
 #INC_DIRS +=
 
 SRC_DIRS = mbed mbed/$(TARGET_BOARD) mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM .
+SRC_DIRS += mbed/$(TARGET_BOARD)/$(TARGET_VENDOR)/$(TARGET_FAMILY)
+SRC_DIRS += mbed/$(TARGET_BOARD)/$(TARGET_VENDOR)/$(TARGET_FAMILY)/$(TARGET_SPECIFIC)
 # app source directories (remove comment and add more files)
 #SRC_DIRS +=
 
