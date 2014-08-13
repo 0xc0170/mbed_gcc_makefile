@@ -56,7 +56,7 @@ MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/retarget.o
 MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/$(SYSTEM_NAME).o
 MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/board.o
 ifneq ("$(wildcard mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o)","")
-	then MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o
+	MBED_OBJ += mbed/$(TARGET_BOARD)/TOOLCHAIN_GCC_ARM/mbed_overrides.o
 endif
 
 # directories
