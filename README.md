@@ -1,7 +1,4 @@
-mbed_gcc_makefile
-=============
-
-mbed GCC Makefile
+# mbed GCC Makefile
 
 ### SUPPORTED PLATFORMS GCC_ARM
 * KL05Z
@@ -16,19 +13,10 @@ mbed GCC Makefile
 * LPC11U35_401
 * STM32F407
 
-For more information check my mbed notebook or my blog.
+If a board is missing, please send a pull request adding it, to keep this up to date. Thanks.
 
+How to use this makefile? I wrote a simple step guide how to create an eclipse project for mbed, used FRDM-KL25Z board: [mbed GCC with eclipse for KL25Z](http://0xc0170.github.io/mbed/2013/08/05/mbed-gcc-with-eclipse-kl25z-part-1/)
 
-Versions
-*********************
-v1.0
-initial version
+If there's an issue, or any improvements can be made, report it in the [issues](https://github.com/0xc0170/mbed_gcc_makefile/issues).
 
-v1.1
-Binary created, assembly listing, binary for mbed interface
-
-v1.2
-printf/scanf for floats are commented out, text size went down to 3kB from 26kB
-
-v2.0
-All mbed platforms which support GCC ARM are added in the Platforms file.
+EnjoY!
