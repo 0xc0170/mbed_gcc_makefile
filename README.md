@@ -19,4 +19,7 @@ How to use this makefile? I wrote a simple step guide how to create an eclipse p
 
 If there's an issue, or any improvements can be made, report it in the [issues](https://github.com/0xc0170/mbed_gcc_makefile/issues).
 
+## License
+Apache License, Version 2.0
+
 EnjoY!
