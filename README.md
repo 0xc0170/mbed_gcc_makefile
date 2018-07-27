@@ -1,5 +1,9 @@
 # mbed GCC Makefile
 
+Note: This is old Makefile (few years old). There were plenty of changes in mbed (currently Mbed OS) tree. Therefore this might not build anymore.
+Use mbed-cli to build Mbed OS or export (supports exporting to Makefiles for various toolchains). This repo serves as a good example
+how to write a simple makefile to build a project with mbed or similar SDK.
+
 ### SUPPORTED PLATFORMS GCC_ARM
 * KL05Z
 * KL25Z
